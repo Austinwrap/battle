@@ -6,8 +6,8 @@
     <style>
         body {
             font-family: 'Courier New', monospace;
-            background: linear-gradient(45deg, #4a0000, #1a1a1a, #ff1a1a);
-            color: #fff;
+            background: linear-gradient(45deg, #2b1a1a, #0d0d0d, #b30000); /* Darker, muted red theme */
+            color: #e6e6e6; /* Softer white for readability */
             text-align: center;
             padding: 10px;
             margin: 0;
@@ -18,53 +18,87 @@
         h1 {
             font-size: 1.8em;
             text-transform: uppercase;
-            text-shadow: 2px 2px #000, 0 0 8px #ff1a1a;
+            text-shadow: 2px 2px #000, 0 0 6px #b30000;
             margin: 10px 0;
         }
+        h2 {
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
         button {
-            padding: 10px 20px;
-            font-size: 1em;
-            background: #4a0000;
-            border: 2px solid #ff1a1a;
-            color: #fff;
-            border-radius: 5px;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            background: #2b1a1a;
+            border: 2px solid #b30000;
+            color: #e6e6e6;
+            border-radius: 4px;
             cursor: pointer;
             transition: transform 0.2s;
             margin: 5px;
             width: 90%;
-            max-width: 300px;
+            max-width: 280px;
         }
         button:hover {
             transform: scale(1.05);
-            background: #ff1a1a;
+            background: #b30000;
         }
         .char-button {
-            background: #1a1a1a;
-            border: 1px solid #ff1a1a;
+            background: #0d0d0d;
+            border: 1px solid #b30000;
             width: 45%;
             margin: 2px;
             display: inline-block;
+            font-size: 0.8em;
         }
         .char-button.selected {
-            background: #ff1a1a;
-            border: 2px solid #fff;
+            background: #b30000;
+            border: 2px solid #e6e6e6;
         }
-        #battleground, #leaderboard, #records, #bracket, #customSelect {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px auto;
+        #battleground, #customSelect, #bracket, #leaderboard, #records {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 8px;
+            border-radius: 4px;
+            margin: 8px auto;
             max-width: 100%;
-            border: 1px solid #ff1a1a;
+            border: 1px solid #b30000;
+        }
+        #battleground, #customSelect {
+            padding-bottom: 12px;
+        }
+        #bracket {
+            font-size: 0.8em; /* Smaller tree */
+            padding: 6px;
+        }
+        .bracket-round {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 3px 0;
+        }
+        .bracket-match {
+            background: #2b1a1a;
+            padding: 4px;
+            border-radius: 3px;
+            width: 30%; /* Tighter matches */
+            max-width: 90px;
+            text-align: center;
+            border: 1px solid #b30000;
+            margin: 2px;
+            font-size: 0.8em;
+            line-height: 1.2;
+        }
+        #records {
+            font-size: 0.8em; /* Smaller ledger */
+            padding: 6px;
         }
         .popup {
             position: fixed;
             top: 10%;
             left: 2.5%;
             width: 95%;
-            background: #1a1a1a;
-            padding: 15px;
-            border: 2px solid #ff1a1a;
+            background: #0d0d0d;
+            padding: 10px;
+            border: 2px solid #b30000;
             z-index: 1000;
             display: none;
             animation: pop 0.5s ease-in-out;
@@ -81,7 +115,7 @@
             position: absolute;
             top: 5px;
             right: 5px;
-            color: #ff1a1a;
+            color: #b30000;
             cursor: pointer;
             font-size: 1.2em;
         }
@@ -90,30 +124,13 @@
             line-height: 1.3;
             text-align: left;
             padding: 5px;
-            background: rgba(255, 26, 26, 0.15);
-            border-radius: 5px;
-        }
-        .bracket-round {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            margin: 5px 0;
-        }
-        .bracket-match {
-            background: #4a0000;
-            padding: 8px;
-            border-radius: 5px;
-            width: 45%;
-            max-width: 120px;
-            text-align: center;
-            border: 1px solid #ff1a1a;
-            margin: 2px;
-            font-size: 0.9em;
+            background: rgba(179, 0, 0, 0.2);
+            border-radius: 4px;
         }
         .winner-celebration {
             font-size: 1.5em;
-            color: #ff1a1a;
-            text-shadow: 0 0 8px #fff, 0 0 15px #ff4500;
+            color: #b30000;
+            text-shadow: 0 0 6px #e6e6e6, 0 0 12px #ff4500;
             animation: bleed 1s infinite;
         }
         @keyframes bleed {
@@ -121,10 +138,11 @@
         }
         @media (max-width: 768px) {
             h1 { font-size: 1.5em; }
-            button { font-size: 0.9em; padding: 8px 15px; }
+            h2 { font-size: 1em; }
+            button { font-size: 0.8em; padding: 6px 12px; }
             #battleLog { font-size: 0.9em; }
-            .char-button { width: 45%; font-size: 0.8em; }
-            .bracket-match { width: 45%; font-size: 0.8em; }
+            .char-button { width: 45%; font-size: 0.7em; }
+            .bracket-match { width: 30%; font-size: 0.7em; }
         }
     </style>
 </head>
@@ -132,16 +150,16 @@
     <h1>Bloodfuck Chaos</h1>
     <div id="battleground">
         <button onclick="randomizeMatchup()">Next Gorefest</button>
-        <button onclick="resetStats()">Reset the Slaughter</button>
+        <button onclick="resetStats()">Reset Slaughter</button>
         <div id="matchup"></div>
     </div>
     <div id="customSelect">
-        <h2>Pick Your Victims</h2>
+        <h2>Pick Victims</h2>
         <div id="charList"></div>
-        <button onclick="customFight()" id="customFightBtn" disabled>Make ‘em Bleed!</button>
+        <button onclick="customFight()" id="customFightBtn" disabled>Make ‘em Bleed</button>
     </div>
     <div id="bracket">
-        <h2>Sweet 8 Massacre</h2>
+        <h2>Sweet 8 Tree</h2>
         <div id="quarterfinals"></div>
         <div id="semifinals"></div>
         <div id="finals"></div>
@@ -279,7 +297,7 @@
             }
             document.getElementById("matchup").innerHTML = `
                 <h2>${currentMatch[0]} vs ${currentMatch[1]}</h2>
-                <button onclick="beginFight()">Rip ‘em Apart!</button>
+                <button onclick="beginFight()">Rip ‘em Apart</button>
             `;
             updateBracket();
         }
@@ -301,7 +319,7 @@
             currentMatch = [...selectedChars];
             document.getElementById("matchup").innerHTML = `
                 <h2>${currentMatch[0]} vs ${currentMatch[1]}</h2>
-                <button onclick="beginFight()">Rip ‘em Apart!</button>
+                <button onclick="beginFight()">Rip ‘em Apart</button>
             `;
             selectedChars.forEach(char => document.getElementById(`char-${char}`).classList.remove("selected"));
             selectedChars = [];
@@ -322,7 +340,7 @@
             let round = 0;
             let fightOver = false;
 
-            await addLog(log, "☠️ Gore drops now!", "#fff");
+            await addLog(log, "☠️ Gore drops now!", "#e6e6e6");
             await new Promise(r => setTimeout(r, 2000));
 
             while (round < maxRounds && !fightOver) {
@@ -409,13 +427,13 @@
             const sf = document.getElementById("semifinals");
             const fn = document.getElementById("finals");
             const ch = document.getElementById("champion");
-            qf.innerHTML = "<h3>Quarters</h3><div class='bracket-round'>" + 
-                bracket.quarterfinals.map(m => `<div class='bracket-match'>${m[0]} vs ${m[1]}<br>${m.winner ? m.winner : "TBD"}</div>`).join("") + "</div>";
-            sf.innerHTML = "<h3>Semis</h3><div class='bracket-round'>" + 
-                bracket.semifinals.map(m => `<div class='bracket-match'>${m[0]} vs ${m[1]}<br>${m.winner ? m.winner : "TBD"}</div>`).join("") + "</div>";
-            fn.innerHTML = "<h3>Final</h3><div class='bracket-round'>" + 
-                bracket.finals.map(m => `<div class='bracket-match'>${m[0]} vs ${m[1]}<br>${m.winner ? m.winner : "TBD"}</div>`).join("") + "</div>";
-            ch.innerHTML = bracket.champion ? `<h3>Gore Lord</h3><div class='bracket-match winner-celebration'>${bracket.champion}</div>` : "";
+            qf.innerHTML = "<h3>Q</h3><div class='bracket-round'>" + 
+                bracket.quarterfinals.map(m => `<div class='bracket-match'>${m[0]}<br>vs<br>${m[1]}${m.winner ? "<br>✓ " + m.winner : ""}</div>`).join("") + "</div>";
+            sf.innerHTML = bracket.semifinals.length ? "<h3>S</h3><div class='bracket-round'>" + 
+                bracket.semifinals.map(m => `<div class='bracket-match'>${m[0]}<br>vs<br>${m[1]}${m.winner ? "<br>✓ " + m.winner : ""}</div>`).join("") + "</div>" : "";
+            fn.innerHTML = bracket.finals.length ? "<h3>F</h3><div class='bracket-round'>" + 
+                bracket.finals.map(m => `<div class='bracket-match'>${m[0]}<br>vs<br>${m[1]}${m.winner ? "<br>✓ " + m.winner : ""}</div>`).join("") + "</div>" : "";
+            ch.innerHTML = bracket.champion ? `<h3>C</h3><div class='bracket-match winner-celebration'>${bracket.champion}</div>` : "";
         }
 
         function resetStats() {
